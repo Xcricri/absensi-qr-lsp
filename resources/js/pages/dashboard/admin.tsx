@@ -1,7 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { admin } from '@/routes/dashboard';
-import { Users, UserCheck, Clock, ArrowRight } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import { Users, UserCheck, Clock, } from 'lucide-react';
 
 export default function Admin({ stats, latest_scans }: { stats: any; latest_scans: any[] }) {
     return (
@@ -43,9 +41,6 @@ export default function Admin({ stats, latest_scans }: { stats: any; latest_scan
                 <div className="relative min-h-[400px] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 p-6 bg-white dark:bg-neutral-900 dark:border-sidebar-border">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="font-semibold text-lg">Absensi Terbaru</h3>
-                        <button className="text-sm text-blue-500 flex items-center hover:underline">
-                            Lihat Semua <ArrowRight className="size-4 ml-1" />
-                        </button>
                     </div>
                     <div className="relative w-full overflow-auto">
                         <table className="w-full text-sm text-left">
@@ -89,8 +84,3 @@ export default function Admin({ stats, latest_scans }: { stats: any; latest_scan
     );
 }
 
-Admin.layout = (page: any) => (
-    <AppLayout breadcrumbs={[{ title: 'admin', href: admin.url() }]}>
-        {page}
-    </AppLayout>
-);

@@ -6,7 +6,6 @@ use App\Models\User;
 use Database\Seeders\ShiftSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,21 +17,24 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ShiftSeeder::class,
         ]);
-        // User::factory(10)->create();
+
+
+        User::factory(15)->create([
+            'role' => 'user',
+            'password' => Hash::make('password'),
+        ]);
 
         User::factory()->create([
-            'name' => 'Panca',
+            'name' => 'Admin',
             'role' => 'admin',
-            'email' => 'pancapramuditya@gmail.com',
-            'password' => Hash::make('abdulganteng12'),
-            'code' => Str::random(20)
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
         ]);
         User::factory()->create([
-            'name' => 'member',
+            'name' => 'Member',
             'role' => 'user',
-            'email' => 'member@gmail.com',
-            'password' => Hash::make('abdulganteng12'),
-            'code' => Str::random(20)
+            'email' => 'member@example.com',
+            'password' => Hash::make('password'),
         ]);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->time('work_time');
             $table->time('home_time');
-            $table->unsignedTinyInteger('tolerance')->default(15);
+            $table->unsignedTinyInteger('tolerance')->default(30);
             $table->timestamps();
         });
     }

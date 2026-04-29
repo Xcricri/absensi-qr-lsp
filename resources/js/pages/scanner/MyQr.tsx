@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
 import QRCode from "react-qr-code";
+import AppLayout from '@/layouts/app-layout';
 
 export default function MyQr({ user_code, user_name }: { user_code: string; user_name: string }) {
     // Pengaman jika import QRCode terbaca sebagai objek modul
@@ -23,8 +23,8 @@ export default function MyQr({ user_code, user_name }: { user_code: string; user
                     {/* QR Code Section */}
                     <div className="p-10 flex flex-col items-center bg-white dark:bg-neutral-900">
                         <div className="p-4 bg-white rounded-2xl shadow-inner border border-neutral-50 mb-6">
-                            <QRCodeComponent 
-                                value={user_code || "unknown"} 
+                            <QRCodeComponent
+                                value={user_code || "unknown"}
                                 size={200}
                                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                                 viewBox={`0 0 256 256`}
@@ -40,7 +40,7 @@ export default function MyQr({ user_code, user_name }: { user_code: string; user
                         <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-tighter">Kartu Identitas Digital • LSP Present</span>
                     </div>
                 </div>
-                
+
                 <p className="mt-8 text-xs text-neutral-400 font-medium">
                     Pastikan layar HP cukup terang saat melakukan scan.
                 </p>

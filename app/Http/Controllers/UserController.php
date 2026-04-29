@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -22,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('users/create');
     }
 
     /**
@@ -30,18 +33,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validate = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
+            'role' => 'required|in:admin,user',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => 'user',
-        ]);
+        if ($request->hasFile('avatar')) {
+            $validate['avatar'] = $this->uploadImage($request->file('avatar'));
+        }
+
+        $validate['password'] = Hash::make($request->password);
+
+        User::create($validate);
 
         return back()->with('success', 'Karyawan berhasil ditambahkan.');
     }
@@ -51,7 +57,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return Inertia::render('users/show', compact('user'));
     }
 
     /**
@@ -59,7 +66,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return Inertia::render('users/edit', compact('user'));
     }
 
     /**
@@ -69,22 +77,23 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $request->validate([
+        $validate = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:8',
+            'role' => 'required|in:admin,user',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-        ];
-
-        if ($request->filled('password')) {
-            $data['password'] = bcrypt($request->password);
+        if ($request->hasFile('avatar')) {
+            $validate['avatar'] = $this->uploadImage($request->file('avatar'));
         }
 
-        $user->update($data);
+        if ($request->filled('password')) {
+            $validate['password'] = Hash::make($request->password);
+        }
+
+        $user->update($validate);
 
         return back()->with('success', 'Data karyawan berhasil diperbarui.');
     }
@@ -98,5 +107,15 @@ class UserController extends Controller
         $user->delete();
 
         return back()->with('success', 'Karyawan berhasil dihapus.');
+    }
+
+
+    /**
+     * Upload Image
+     */
+    private function uploadImage(UploadedFile $file): string
+    {
+        $filename = time() . '_' . $file->getClientOriginalName();
+        return $file->storeAs('avatars', $filename, 'public');
     }
 }

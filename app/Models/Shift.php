@@ -23,11 +23,11 @@ class Shift extends Model
         $today = $now->format('Y-m-d');
 
         $start = Carbon::parse("{$today} {$this->work_time}")
-        ->subMinutes($this->tolerance);
+            ->subMinutes($this->tolerance);
         $isOvernight = $this->work_time < $this->home_time;
         $endDate = $isOvernight ? Carbon::tomorrow()->format('Y-m-d') : $today;
 
-        $end = Carbon::parse("{$endDate} {$this->home_time}")-> addMinutes($this->tolerance);
+        $end = Carbon::parse("{$endDate} {$this->home_time}")->addMinutes($this->tolerance);
 
         return $now->isBetween($start, $end);
     }

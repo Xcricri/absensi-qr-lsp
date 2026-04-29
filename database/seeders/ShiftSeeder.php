@@ -16,17 +16,17 @@ class ShiftSeeder extends Seeder
             [
                 'name' => 'Shift Pagi',
                 'work_time' => '07:00:00',
-                'home_time' => '12:00:00'
+                'home_time' => '15:00:00'
             ],
             [
                 'name' => 'Shift Sore',
-                'work_time' => '13:00:00',
-                'home_time' => '18:00:00'
+                'work_time' => '15:00:00',
+                'home_time' => '23:00:00'
             ],
             [
                 'name' => 'Shift Malam',
-                'work_time' => '19:00:00',
-                'home_time' => '23:00:00'
+                'work_time' => '23:00:00',
+                'home_time' => '07:00:00'
             ]
         ]);
     }

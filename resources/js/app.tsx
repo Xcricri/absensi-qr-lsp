@@ -8,7 +8,7 @@ import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Absensi olland';
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
@@ -16,18 +16,18 @@ createInertiaApp({
         const pages = import.meta.glob('./pages/**/*.tsx', { eager: true });
         const normalizedName = name.replace(/\\/g, '/').toLowerCase();
         const key = Object.keys(pages).find(k => k.toLowerCase() === `./pages/${normalizedName}.tsx`);
-        
+
         if (!key) {
-             throw new Error(`Page not found: ${name}. Available pages: ${Object.keys(pages).join(', ')}`);
+            throw new Error(`Page not found: ${name}. Available pages: ${Object.keys(pages).join(', ')}`);
         }
 
         const page = (pages[key] as any).default;
-        
+
         // If layout is a metadata object, wrap it!
         if (page.layout && typeof page.layout !== 'function' && !Array.isArray(page.layout)) {
             const metadata = page.layout;
             const breadcrumbs = metadata.breadcrumbs || [];
-            
+
             if (name.startsWith('auth/')) {
                 page.layout = (children: React.ReactNode) => (
                     <AuthLayout title={metadata.title} description={metadata.description}>{children}</AuthLayout>
@@ -41,10 +41,10 @@ createInertiaApp({
                     <AppLayout breadcrumbs={breadcrumbs}>{children}</AppLayout>
                 );
             }
-        } 
+        }
         // If layout is missing (except for welcome), apply a default wrapper
         else if (!page.layout && name !== 'welcome') {
-             page.layout = (children: React.ReactNode) => <AppLayout>{children}</AppLayout>;
+            page.layout = (children: React.ReactNode) => <AppLayout>{children}</AppLayout>;
         }
 
         return page;
